@@ -1,4 +1,4 @@
-# toolbox
+# Toolbox
 A toolbox with all my scripts and configs.
 
 ## How to install
