@@ -1,0 +1,36 @@
+# $1 = file to export
+
+ECP_PATH="/tmp/ecp"
+
+while [ $# -gt 0 ]; do
+    if [ $1 == "--ip" ]; then
+            ip="$2"
+            shift
+    else
+        export_paths="$export_paths $1"
+    fi
+    shift
+done
+
+if [ -n "$export_paths" ]; then
+    for arg in $export_paths; do
+        file_path=$( realpath $arg )
+        echo $file_path >> $ECP_PATH
+        echo "Exported $file_path"
+    done
+else
+    if [ -n "$ip" ]; then
+        paths=$( sshpass -p pass ssh root@$ip cat /tmp/ecp )
+        echo "Importing from $ip:"
+        for path in $paths; do
+            scp -r root@$ip:$path .
+        done
+        sshpass -p pass ssh root@$ip "echo '' > /tmp/ecp"
+    else
+        for path in $( cat $ECP_PATH ); do
+            cp -r $path .
+            echo "Imported $path"
+        done
+        echo "" > $ECP_PATH
+    fi
+fi

@@ -1,0 +1,41 @@
+[global_config]
+  dbus = False
+  focus = system
+  inactive_color_offset = 1.0
+  title_transmit_bg_color = "#5c3566"
+[keybindings]
+  cycle_next = <Primary><Shift><Alt>k
+  cycle_prev = <Primary><Shift><Alt>j
+  go_down = <Primary>j
+  go_left = <Primary>h
+  go_right = <Primary>l
+  go_up = <Primary>k
+  next_tab = <Alt>l
+  prev_tab = <Alt>h
+  switch_to_tab_1 = <Alt>1
+  switch_to_tab_10 = <Alt>0
+  switch_to_tab_2 = <Alt>2
+  switch_to_tab_3 = <Alt>3
+  switch_to_tab_4 = <Alt>4
+  switch_to_tab_5 = <Alt>5
+  switch_to_tab_6 = <Alt>6
+  switch_to_tab_7 = <Alt>7
+  switch_to_tab_8 = <Alt>8
+  switch_to_tab_9 = <Alt>9
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_color = "#282828"
+    background_darkness = 0.33
+    cursor_color = "#aaaaaa"
+    foreground_color = "#ebdbb2"
+    scrollback_lines = 5000

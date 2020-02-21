@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+from subprocess import check_output
+import re
+import os
+import argparse
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+# TODO: This needs to be created if it doesn't exist
+WORKSPACE_NAMES_PATH = "{}/workspace_names".format(SCRIPT_DIR)
+
+def get_workspace_names():
+    with open(WORKSPACE_NAMES_PATH, "r") as f:
+        ws_raw = f.read()
+        ws = ws_raw.split(",")
+        return ws
+
+def save_workspace_names(workspace_names):
+    with open(WORKSPACE_NAMES_PATH, "w") as f:
+        f.write(workspace_names)
+
+def get_current_workspace():
+    cur_ws = check_output(["xprop", "-root", "-notype", "_NET_CURRENT_DESKTOP"])
+    return int(re.search("= (.*)", cur_ws).group(1))
+
+def set_workspace_names(workspace_names):
+    check_output(["gsettings", "set", "org.gnome.desktop.wm.preferences", "workspace-names", "[{}]".format(workspace_names)])
+
+parser = argparse.ArgumentParser()
+parser.add_argument("title", help="The title to set.")
+args = parser.parse_args()
+
+current_workspace = get_current_workspace()
+workspace_names = get_workspace_names()
+new_workspace_names = ""
+
+for i, name in enumerate(workspace_names):
+    if i == current_workspace:
+        new_workspace_names += "'{}',".format(args.title)
+    else:
+        new_workspace_names += "{},".format(name)
+
+new_workspace_names = new_workspace_names[:-1]
+save_workspace_names(new_workspace_names)
+set_workspace_names(new_workspace_names)
+print("Workspace names changed!")

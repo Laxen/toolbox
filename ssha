@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This script uses scp to copy ssh-init to the targets ~/.profile, SSH:s to
+# the target and then removes the .profile when the SSH session ends.
+# .profile is sourced by sh when it starts
+
+# WARNING, READ THIS BEFORE USING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# This script disregards ALL man-in-the-middle safety checks and should NOT be
+# used when such attacks are possible. But using it on your own local network
+# that you control is probably fine.
+
+if [ $# -eq 1 ]; then
+  if [[ $1 == *"."* || $1 == *":"* ]]; then
+    # Address contains a dot or a colon, so probably a complete IP address
+    IP=$1
+  elif [[ $1 == *[a-z]* ]]; then
+    # Address contains letters, so probably an alias from /etc/hosts
+    IP=$1
+  else
+    IP="192.168.0.$1"
+  fi
+else
+  echo "Usage: ssha <IP>"
+  exit
+fi
+
+# Finds the directory that the script is located in
+DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
+
+# Build complete .profile
+cp $DIR/ssha-profile /tmp/ssha-profile
+if [ -f $DIR/ssha-private-profile ]; then
+    echo -e "\n# FROM PRIVATE PROFILE --------------------------------" >> /tmp/ssha-profile
+    cat $DIR/ssha-private-profile >> /tmp/ssha-profile
+fi
+
+echo "Copying .profile to root@$IP..."
+sshpass -p pass scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/ssha-profile root@[$IP]:.profile
+echo "Done!"
+
+echo "ssh root@$IP"
+sshpass -p pass /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$IP
+
+echo "Removing .profile on root@$IP..."
+sshpass -p pass /usr/bin/ssh root@$IP -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no rm -f /root/.profile
