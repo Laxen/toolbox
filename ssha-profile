@@ -16,4 +16,26 @@ alias printall="echo 8 > /proc/sys/kernel/printk"
 alias ecp="/root/ecp"
 alias crash="echo c > /proc/sysrq-trigger"
 alias iosched="cat /sys/block/sda/queue/scheduler"
-alias getalias="cat ~/.profile"
+
+cpugov () {
+    LOC="/sys/devices/system/cpu/cpufreq"
+    gov_0=$( cat "$LOC/policy0/scaling_governor" )
+    cpus_0=$( cat "$LOC/policy0/affected_cpus" )
+    gov_4=$( cat "$LOC/policy4/scaling_governor" )
+    cpus_4=$( cat "$LOC/policy4/affected_cpus" )
+
+    echo "$cpus_0: $gov_0"
+    echo "$cpus_4: $gov_4"
+}
+
+setcpugov () {
+    LOC="/sys/devices/system/cpu/cpufreq"
+    echo "$1" > "$LOC/policy0/scaling_governor"
+    echo "$1" > "$LOC/policy4/scaling_governor"
+    cpugov
+}
+
+setiosched () {
+    echo "$1" > "/sys/block/sda/queue/scheduler"
+    iosched
+}
