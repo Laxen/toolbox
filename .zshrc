@@ -68,14 +68,14 @@ alias ag='echo "${RED}WARNING: Skipping files in oe-*/, tmp/, sysroot*/, snapsho
 alias gpr='git pull --rebase'
 alias f='find . -name'
 alias sizes='du -hs *'
-alias l='ls -alh'
+alias l='ls -alh --color'
 alias ll='ls -lh'
 alias finder='xdg-open .'
 alias vim='~/apps/nvim.appimage'
 alias v='~/apps/nvim.appimage'
 alias cspy="find . -name '*.py' > cscope.files && cscope -Rb"
-alias zshrc='vim ~/scripts/zsh/zshrc && source ~/scripts/zsh/zshrc'
-alias privaterc='vim ~/scripts/zsh/privaterc && source ~/scripts/zsh/privaterc'
+alias zshrc='vim $HOME/scripts/toolbox/.zshrc && source $HOME/scripts/toolbox/.zshrc'
+alias privaterc='vim $HOME/scripts/toolbox/.privaterc && source $HOME/scripts/toolbox/.privaterc'
 alias oe-find='oe-pkgdata-util find-path'
 alias am='git-am patches/'
 alias tagup='ctags -R --exclude="oe-*" .'
@@ -85,6 +85,10 @@ bclean () { bitbake -c cleansstate "$1" ; notify-send "Bitbake" "$1 clean comple
 alias poweroff="echo \"You don't want to do this\""
 alias shutdown="echo \"You don't want to do this\""
 alias reboot="echo \"You don't want to do this\""
+highlight () { grep --color=always -e "^" -e "$1"; }
 
 # fzf, fuzzy search in shell
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+chromatic_zsh="$HOME/scripts/toolbox/chromatic-zsh/chromatic-zsh.zsh"
+[ -f $chromatic_zsh ] && source $chromatic_zsh
