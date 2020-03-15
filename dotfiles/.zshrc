@@ -2,11 +2,6 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# Set up the prompt
-autoload -Uz promptinit
-promptinit
-prompt walters
-
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
 SAVEHIST=1000
