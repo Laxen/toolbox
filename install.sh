@@ -9,19 +9,19 @@
 DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
 
 # Scripts
-ln -fs $DIR/ssha $HOME/bin/ssha
-ln -fs $DIR/ecp $HOME/bin/ecp
-ln -fs $DIR/post-json $HOME/bin/post-json
-ln -fs $DIR/workspace-title $HOME/bin/workspace-title
+ln -fs $DIR/ssha/ssha $HOME/bin/ssha
+ln -fs $DIR/scripts/ecp $HOME/bin/ecp
+ln -fs $DIR/scripts/post-json $HOME/bin/post-json
+ln -fs $DIR/scripts/workspace-title $HOME/bin/workspace-title
 
 # Zsh
-echo "source $DIR/.zshrc" > $HOME/.zshrc
-echo "[ -f $DIR/.privaterc ] && source $DIR/.privaterc" >> $HOME/.zshrc
+echo "source $DIR/dotfiles/.zshrc" > $HOME/.zshrc
+echo "[ -f $DIR/dotfiles/.zshrc_private ] && source $DIR/dotfiles/.zshrc_private" >> $HOME/.zshrc
 
 # Various configs
-ln -fs $DIR/.xinitrc $HOME/.xinitrc
-ln -fs $DIR/terminator_config $HOME/.config/terminator/config
-ln -fs $DIR/.tmux.conf $HOME/.tmux.conf
+ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
+ln -fs $DIR/dotfiles/terminator_config $HOME/.config/terminator/config
+ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 
 # Dconf
-dconf load / < $DIR/dconf_dump
+dconf load / < $DIR/dconf/dconf_dump

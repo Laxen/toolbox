@@ -28,14 +28,14 @@ fi
 DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
 
 # Build complete .profile
-cp $DIR/ssha-profile /tmp/ssha-profile
-if [ -f $DIR/ssha-private-profile ]; then
-    echo -e "\n# FROM PRIVATE PROFILE --------------------------------" >> /tmp/ssha-profile
-    cat $DIR/ssha-private-profile >> /tmp/ssha-profile
+cp $DIR/.profile /tmp/.profile
+if [ -f $DIR/.profile_private ]; then
+    echo -e "\n# FROM PRIVATE PROFILE --------------------------------" >> /tmp/.profile
+    cat $DIR/.profile_private >> /tmp/.profile
 fi
 
 echo "Copying .profile to root@$IP..."
-sshpass -p pass scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/ssha-profile root@[$IP]:.profile
+sshpass -p pass scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/.profile root@[$IP]:.profile
 echo "Done!"
 
 echo "ssh root@$IP"
