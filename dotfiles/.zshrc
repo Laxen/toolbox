@@ -52,11 +52,6 @@ export LESS=dMqifR
 # Shorter key repeat delay and faster repeat rate
 xset r rate 200 40
 
-# # Finds the directory that the script is located in
-# DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
-# # Source private script that is not pushed to Github (i.e. company specific script)
-# [ -f $DIR/.privaterc ] && source $DIR/.privaterc
-
 alias c='cd ..'
 alias gk='gitk --all &'
 alias gittrack='git branch --set-upstream-to='
@@ -71,7 +66,7 @@ alias sizes='du -hs *'
 alias l='ls -alh --color'
 alias ll='ls -lh'
 alias finder='xdg-open .'
-alias vim='~/apps/nvim.appimage 2>/dev/null || nvim'
+alias vim='$HOME/apps/nvim.appimage 2>/dev/null || nvim'
 alias v='vim'
 alias cspy="find . -name '*.py' > cscope.files && cscope -Rb"
 alias zshrc='vim $HOME/scripts/toolbox/.zshrc && source $HOME/scripts/toolbox/.zshrc'
