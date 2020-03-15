@@ -10,7 +10,9 @@ dumpit() {
     # $1 = Path to dump
     # $2 = Thing to grep (optional)
 
-    echo "[$1]" >> $DUMP_FILE
+    # Echo tag to file (sed removes the encapsulating slashes)
+    tag=$( echo "$1" | sed -e "s/^\/\(.*\)\/$/\1/" )
+    echo "[$tag]" >> $DUMP_FILE
     if [ $# -eq 2 ]; then
         dconf dump "$1" | grep "$2" >> $DUMP_FILE
     else
