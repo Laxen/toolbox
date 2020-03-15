@@ -21,6 +21,7 @@ echo "[ -f $DIR/.privaterc ] && source $DIR/.privaterc" >> $HOME/.zshrc
 # Various configs
 ln -fs $DIR/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/terminator_config $HOME/.config/terminator/config
+ln -fs $DIR/.tmux.conf $HOME/.tmux.conf
 
 # Dconf
 dconf load / < $DIR/dconf_dump

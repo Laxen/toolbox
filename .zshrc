@@ -92,3 +92,8 @@ highlight () { grep --color=always -e "^" -e "$1"; }
 
 chromatic_zsh="$HOME/scripts/toolbox/chromatic-zsh/chromatic-zsh.zsh"
 [ -f $chromatic_zsh ] && source $chromatic_zsh
+
+# Start Tmux
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
