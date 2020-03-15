@@ -1,13 +1,11 @@
 # Toolbox
 A toolbox with all my scripts and configs.
 
-# Prerequisites
-* Oh-my-zsh
-* Powerline fonts
-
 ## How to install
-1. Make sure terminator is installed
-2. Run `install.sh`
+1. Install oh-my-zsh
+2. Install powerline fonts
+3. git clone --recurse-submodules https://github.com/Laxen/toolbox.git
+4. Run `install.sh`
 
 ## Todo
 * Add git aliases

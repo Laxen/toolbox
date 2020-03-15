@@ -26,3 +26,5 @@ ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 
 # Dconf
 dconf load / < $DIR/dconf/dconf_dump
+
+echo "Toolbox installed!"
