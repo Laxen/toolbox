@@ -1,17 +1,17 @@
 
-[/org/gnome/shell/]
+[org/gnome/shell]
 enabled-extensions=['drop-down-terminal@gs-extensions.zzrough.org.v23.shell-extension', 'workspace-grid@mathematical.coffee.gmail.com']
 
-[/org/gnome/shell/extensions/workspace-grid/]
+[org/gnome/shell/extensions/workspace-grid]
 num-rows=6
 num-columns=3
 show-workspace-labels=true
 
-[/org/gnome/shell/overrides/]
+[org/gnome/shell/overrides]
 dynamic-workspaces=false
 workspaces-only-on-primary=false
 
-[/org/gnome/desktop/wm/keybindings/]
+[org/gnome/desktop/wm/keybindings]
 move-to-workspace-up=['<Primary><Shift><Alt>k', '<Control><Shift><Alt>Up']
 switch-to-workspace-left=['<Primary><Alt>h']
 switch-applications=@as []
@@ -27,10 +27,10 @@ move-to-monitor-right=['<Primary><Shift><Alt>KP_Right']
 move-to-workspace-down=['<Primary><Shift><Alt>j', '<Control><Shift><Alt>Down']
 switch-to-workspace-up=['<Primary><Alt>k', '<Control><Alt>Up']
 
-[/org/gnome/desktop/input-sources/]
+[org/gnome/desktop/input-sources]
 xkb-options=['caps:escape']
 
-[/org/zzrough/gs-extensions/drop-down-terminal/]
+[org/zzrough/gs-extensions/drop-down-terminal]
 enable-animation=true
 first-start=false
 transparent-terminal=true

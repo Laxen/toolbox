@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Dumps bits of dconf that you want synced between computers
 
 # Finds the directory that the script is located in

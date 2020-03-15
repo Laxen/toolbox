@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # This script does the following:
 #   * Symlinks all toolbox scripts to $HOME/bin
 #   * Sets up sourcing of .zshrc and .privaterc
@@ -19,3 +21,6 @@ echo "[ -f $DIR/.privaterc ] && source $DIR/.privaterc" >> $HOME/.zshrc
 # Various configs
 ln -fs $DIR/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/terminator_config $HOME/.config/terminator/config
+
+# Dconf
+dconf load / < $DIR/dconf_dump
