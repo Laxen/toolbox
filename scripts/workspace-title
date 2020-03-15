@@ -10,10 +10,13 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 WORKSPACE_NAMES_PATH = "{}/workspace_names".format(SCRIPT_DIR)
 
 def get_workspace_names():
-    with open(WORKSPACE_NAMES_PATH, "r") as f:
-        ws_raw = f.read()
-        ws = ws_raw.split(",")
-        return ws
+    try:
+        with open(WORKSPACE_NAMES_PATH, "r") as f:
+            ws_raw = f.read()
+            ws = ws_raw.split(",")
+            return ws
+    except IOError:
+        return None
 
 def save_workspace_names(workspace_names):
     with open(WORKSPACE_NAMES_PATH, "w") as f:
@@ -33,6 +36,10 @@ args = parser.parse_args()
 current_workspace = get_current_workspace()
 workspace_names = get_workspace_names()
 new_workspace_names = ""
+
+if workspace_names == None:
+    print("ERROR: Could not load workspace names, does {} exist?".format(WORKSPACE_NAMES_PATH))
+    quit()
 
 for i, name in enumerate(workspace_names):
     if i == current_workspace:
