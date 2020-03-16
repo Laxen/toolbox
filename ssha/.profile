@@ -1,6 +1,7 @@
 set -o vi
 
 alias l="ls -alh"
+alias c="cd .."
 alias sysrel="systemctl daemon-reload"
 alias sysres="systemctl restart"
 alias sysstop="systemctl stop"
