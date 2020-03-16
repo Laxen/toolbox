@@ -16,7 +16,7 @@ ln -fs $DIR/scripts/workspace-title $HOME/bin/workspace-title
 
 # Zsh
 cp -f $HOME/.zshrc $HOME/.zshrc.prev
-echo "Backed up your existing .zshrc to .zshrc.prev"
+echo "[INFO] Backed up your existing .zshrc to .zshrc.prev"
 ln -fs $DIR/dotfiles/.zshrc-oh-my-zsh $HOME/.zshrc
 
 # Various configs
@@ -27,4 +27,12 @@ ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 # Dconf
 dconf load / < $DIR/dconf/dconf_dump
 
-echo "Toolbox installed!"
+# Gitconfig
+if ! grep -q ".gitconfig_append" $HOME/.gitconfig; then
+    echo "[include]" >> $HOME/.gitconfig
+    echo -e "\tpath = $DIR/dotfiles/.gitconfig_append" >> $HOME/.gitconfig
+else
+    echo "[INFO] .gitconfig already includes .gitconfig_append, skipping"
+fi
+
+echo "[INFO] Toolbox installed!"

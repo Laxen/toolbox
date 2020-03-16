@@ -1,0 +1,12 @@
+# The configs here will be appended to your .gitconfig when you install the toolbox
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    dt = difftool
+    cp = cherry-pick
+    at = branch -u origin/master
+    as = rebase -i --autosquash
+    cif = commit --fixup
+    track = branch --set-upstream-to
