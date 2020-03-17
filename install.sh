@@ -35,4 +35,7 @@ else
     echo "[INFO] .gitconfig already includes .gitconfig_append, skipping"
 fi
 
+# Nvim
+ln -fs $DIR/nvim $HOME/.config
+
 echo "[INFO] Toolbox installed!"
