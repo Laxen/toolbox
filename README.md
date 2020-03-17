@@ -12,7 +12,7 @@ A toolbox with all my scripts and configs.
 2. Unzip it and look at the "uuid" field in metadata.json
 3. Make the folder $HOME/.local/share/gnome-shell/extensions/\<uuid\>
 4. Unzip into that folder
-5. Run "gnome-shell-extension-tool -e \<uuid\>"
+5. Run "gnome-extensions enable \<uuid\>"
 6. Log out and back in
 
 ## Todo
