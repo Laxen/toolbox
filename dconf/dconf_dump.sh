@@ -23,12 +23,11 @@ dumpit() {
 }
 
 echo "" > $DUMP_FILE
-dumpit "/org/gnome/shell/" "enabled-extensions"
-dumpit "/org/gnome/shell/extensions/workspace-grid/"
 dumpit "/org/gnome/shell/overrides/"
 dumpit "/org/gnome/desktop/wm/keybindings/"
 dumpit "/org/gnome/desktop/input-sources/" "xkb-options"
 dumpit "/org/zzrough/gs-extensions/drop-down-terminal/"
+dumpit "/org/gnome/shell/extensions/wsmatrix/"
 
 # Append the static dconf
 cat $DIR/dconf_static >> $DUMP_FILE
