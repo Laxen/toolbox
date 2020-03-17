@@ -14,6 +14,4 @@ A toolbox with all my scripts and configs.
 4. Unzip into that folder
 5. Run "gnome-extensions enable \<uuid\>"
 6. Log out and back in
-
-## Todo
-* Add git aliases
+7. Run "gnome-tweaks" -> Extensions -> Workspace matrix settings -> uncheck "Show workspace thumbnails" and check "Show workspace names"
