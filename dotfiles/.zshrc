@@ -6,6 +6,7 @@ NC='\033[0m' # No Color
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
+setopt nosharehistory
 
 # Use modern completion system
 autoload -Uz compinit
