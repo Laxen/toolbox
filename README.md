@@ -30,11 +30,3 @@ python3 install.py
 2. `gnome-extensions install <zip-file>`
 3. Log out and back in
 4. `gnome-extensions enable wsmatrix@martin.zurowietz.de`
-
-Manual installation:
-2. Unzip it and look at the "uuid" field in metadata.json
-3. Make the folder $HOME/.local/share/gnome-shell/extensions/\<uuid\>
-4. Unzip into that folder
-5. Run "gnome-extensions enable \<uuid\>"
-6. Log out and back in
-7. Run "gnome-tweaks" -> Extensions -> Workspace matrix settings -> uncheck "Show workspace thumbnails" and check "Show workspace names"
