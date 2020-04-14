@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from subprocess import check_output
 import re
@@ -24,7 +24,7 @@ def save_workspace_names(workspace_names):
 
 def get_current_workspace():
     cur_ws = check_output(["xprop", "-root", "-notype", "_NET_CURRENT_DESKTOP"])
-    return int(re.search("= (.*)", cur_ws).group(1))
+    return int(re.search(b"= (.*)", cur_ws).group(1))
 
 def set_workspace_names(workspace_names):
     check_output(["gsettings", "set", "org.gnome.desktop.wm.preferences", "workspace-names", "[{}]".format(workspace_names)])
