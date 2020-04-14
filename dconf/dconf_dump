@@ -1,5 +1,5 @@
 
-[org/gnome/shell/overrides]
+[org/gnome/mutter]
 dynamic-workspaces=false
 workspaces-only-on-primary=false
 
@@ -42,7 +42,7 @@ default='dca84b97-dc77-4f8a-ac02-a7dbbfffb0ac'
 [org/gnome/terminal/legacy/profiles:/:dca84b97-dc77-4f8a-ac02-a7dbbfffb0ac]
 foreground-color='#C3C3C7C7D1D1'
 visible-name='Material'
-palette=['#070736364141', '#EBEB60606B6B', '#C3C3E8E88D8D', '#F7F7EBEB9595', '#8080CBCBC3C3', '#FFFF24249090', '#AEAEDDDDFFFF', '#FFFFFFFFFFFF', '#00002B2B3636', '#EBEB60606B6B', '#C3C3E8E88D8D', '#F7F7EBEB9595', '#7D7DC6C6BFBF', '#6C6C7171C3C3', '#343443434D4D', '#FFFFFFFFFFFF']
+palette=['#070736364141', '#EBEB60606B6B', '#C3C3E8E88D8D', '#F7F7EBEB9595', '#8080CBCBC3C3', '#FFFF24249090', '#AEAEDDDDFFFF', '#FFFFFFFFFFFF', '#00002B2B3636', '#EBEB60606B6B', '#C3C3E8E88D8D', '#F7F7EBEB9595', '#7D7DC6C6BFBF', '#6C6C7171C3C3', '#F7F7EBEB9595', '#FFFFFFFFFFFF']
 highlight-colors-set=true
 use-theme-colors=false
 use-theme-transparency=false
