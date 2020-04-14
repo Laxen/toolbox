@@ -2,11 +2,12 @@
 A toolbox with all my scripts and configs.
 
 ## Installing the toolbox
-1. Install oh-my-zsh
-2. Install powerline fonts `sudo apt install fonts-powerline`
-3. Install xclip `sudo apt install xclip`
-4. git clone --recurse-submodules https://github.com/Laxen/toolbox.git
-5. Run `install.sh`
+1. Install zsh `sudo apt install zsh`
+2. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+3. Install powerline fonts `sudo apt install fonts-powerline`
+4. Install xclip `sudo apt install xclip`
+5. git clone --recurse-submodules https://github.com/Laxen/toolbox.git
+6. Run `install.sh`
 
 ## Installing Neovim
 1. Install Plugged
