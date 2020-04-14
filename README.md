@@ -2,7 +2,7 @@
 A toolbox with all my scripts and configs.
 
 ## Installing the toolbox
-1. Install zsh `sudo apt install zsh`
+1. Install zsh `sudo apt install zsh && chsh -s $(which zsh)` (Log out and in again)
 2. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 3. Install powerline fonts `sudo apt install fonts-powerline`
 4. Install xclip `sudo apt install xclip`
