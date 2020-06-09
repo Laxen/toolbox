@@ -1,6 +1,51 @@
-if [ $# -le 1 ]; then
-  echo "Usage: post-json <url> <data>"
-  exit 0
+usage () {
+  echo "Usage: post-json (--data DATA | --file PATH) [--pass PASS] <URL>"
+  echo ""
+  echo "  URL          URL to POST JSON to"
+  echo "  --data DATA  JSON data to POST"
+  echo "  --file PATH  Path to a file containing JSON data to POST"
+  echo "  --pass PASS  Password for root account (default: pass)"
+}
+
+# Defaults
+PASS="pass"
+
+while [ $# -gt 0 ]; do
+  key="$1"
+
+  case $key in
+    -h|--help)
+      usage
+      exit
+      ;;
+    --data)
+      DATA="$2"
+      shift
+      shift
+      ;;
+    --file)
+      FILE="$2"
+      shift
+      shift
+      ;;
+    --pass)
+      PASS="$2"
+      shift
+      shift
+      ;;
+    *)
+      POSITIONAL+=("$1")
+      shift
+      ;;
+  esac
+done
+
+# Restore positional args
+set -- "${POSITIONAL[@]}"
+
+# Read data from file
+if [ -n "$FILE" ]; then
+  DATA=$( cat "$FILE" )
 fi
 
-curl --noproxy '*' -H "Content-Type: application/json" --digest --data "$2" --user root:pass "$1" | python -m json.tool
+curl --noproxy '*' -H "Content-Type: application/json" --digest --data "$DATA" --user root:"$PASS" "$1" --silent | python -m json.tool
