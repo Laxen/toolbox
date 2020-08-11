@@ -9,7 +9,7 @@
 # used when such attacks are possible. But using it on your own local network
 # that you control is probably fine.
 
-if [ $# -eq 1 ]; then
+if [ $# -le 2 ]; then
   if [[ $1 == *"."* || $1 == *":"* ]]; then
     # Address contains a dot or a colon, so probably a complete IP address
     IP=$1
@@ -20,8 +20,15 @@ if [ $# -eq 1 ]; then
     IP="192.168.0.$1"
   fi
 else
-  echo "Usage: ssha <IP>"
+  echo "Usage: ssha <IP> [password]"
+  echo "Default password is \"pass\" if no password is specified"
   exit
+fi
+
+if [ $# -eq 2 ]; then
+    pass="$2"
+else
+    pass="pass"
 fi
 
 # Finds the directory that the script is located in
@@ -35,11 +42,11 @@ if [ -f $DIR/.profile_private ]; then
 fi
 
 echo "Copying .profile to root@$IP..."
-sshpass -p pass scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/.profile root@[$IP]:.profile
+sshpass -p "$pass" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/.profile root@[$IP]:.profile
 echo "Done!"
 
 echo "ssh root@$IP"
-sshpass -p pass /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$IP
+sshpass -p "$pass" /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$IP
 
 echo "Removing .profile on root@$IP..."
-sshpass -p pass /usr/bin/ssh root@$IP -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no rm -f /root/.profile
+sshpass -p "$pass" /usr/bin/ssh root@$IP -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no rm -f /root/.profile

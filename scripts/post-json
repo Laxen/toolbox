@@ -1,7 +1,7 @@
 usage () {
-  echo "Usage: post-json (--data DATA | --file PATH) [--pass PASS] <URL>"
+  echo "Usage: post-json (--data DATA --url URL | --file PATH) [--pass PASS]"
   echo ""
-  echo "  URL          URL to POST JSON to"
+  echo "  --url URL    URL to POST JSON to"
   echo "  --data DATA  JSON data to POST"
   echo "  --file PATH  Path to a file containing JSON data to POST"
   echo "  --pass PASS  Password for root account (default: pass)"
@@ -33,19 +33,22 @@ while [ $# -gt 0 ]; do
       shift
       shift
       ;;
-    *)
-      POSITIONAL+=("$1")
+    --url)
+      URL="$2"
       shift
+      shift
+      ;;
+    *)
+      usage
+      exit
       ;;
   esac
 done
 
-# Restore positional args
-set -- "${POSITIONAL[@]}"
-
 # Read data from file
 if [ -n "$FILE" ]; then
-  DATA=$( cat "$FILE" )
+  URL="http://$AXIS_TARGET_IP/"$( head -n1 "$FILE" )
+  DATA=$( tail -n+2 "$FILE" )
 fi
 
-curl --noproxy '*' -H "Content-Type: application/json" --digest --data "$DATA" --user root:"$PASS" "$1" --silent | python -m json.tool
+curl --noproxy '*' -H "Content-Type: application/json" --digest --data "$DATA" --user root:"$PASS" "$URL" --silent | python -m json.tool
