@@ -20,7 +20,8 @@ curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 ```
 pip3 install neovim
 ```
-4. Compile YCM
+4. Run :PlugUpdate from Neovim
+5. Compile YCM
 ```
 sudo apt install build-essential cmake python3-dev
 cd $HOME/.vim/plugged/YouCompleteMe
