@@ -1,7 +1,7 @@
 # Toolbox
 A toolbox with all my scripts and configs.
 
-## Installing the toolbox
+## Toolbox setup
 1. Install zsh `sudo apt install zsh && chsh -s $(which zsh)` (Log out and in again)
 2. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 3. Install powerline fonts `sudo apt install fonts-powerline`
@@ -9,17 +9,18 @@ A toolbox with all my scripts and configs.
 5. git clone --recurse-submodules https://github.com/Laxen/toolbox.git
 6. Run `install.sh`
 
-## Installing Neovim
-1. Install Plugged
+## Neovim setup
+1. Install [Neovim](https://github.com/neovim/neovim/wiki/Installing-Neovim#Linux)
+2. Install Plugged
 ```
 curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
-2. Install Neovim package for Python3
+3. Install Neovim package for Python3
 ```
 pip3 install neovim
 ```
-3. Compile YCM
+4. Compile YCM
 ```
 sudo apt install build-essential cmake python3-dev
 cd $HOME/.vim/plugged/YouCompleteMe
