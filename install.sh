@@ -21,7 +21,6 @@ ln -fs $DIR/dotfiles/.zshrc-oh-my-zsh $HOME/.zshrc
 
 # Various configs
 ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
-ln -fs $DIR/dotfiles/terminator_config $HOME/.config/terminator/config
 ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 
 # Dconf
