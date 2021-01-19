@@ -3,8 +3,8 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=1000000
+SAVEHIST=1000000
 HISTFILE=~/.zsh_history
 setopt nosharehistory
 
@@ -62,7 +62,7 @@ alias sizes='du -hs *'
 alias l='ls -alh --color'
 alias ll='ls -lh'
 alias finder='xdg-open .'
-alias vim='nvim'
+alias vim='$HOME/apps/nvim.appimage'
 alias v='vim'
 alias cspy="find . -name '*.py' > cscope.files && cscope -Rb"
 alias zshrc='vim $HOME/scripts/toolbox/.zshrc && source $HOME/scripts/toolbox/.zshrc'
