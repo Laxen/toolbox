@@ -6,7 +6,7 @@ call plug#begin('~/.vim/plugged')
 " Themes
 " Plug 'morhetz/gruvbox'
 " Plug 'mhartington/oceanic-next'
-Plug 'kaicataldo/material.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 
 " Airline
 Plug 'vim-airline/vim-airline'
@@ -48,6 +48,9 @@ Plug 'mhinz/vim-grepper'
 
 " Tmux Navigator
 Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'alvan/vim-closetag'
 
 " Might want in the future
 " tpope/vim-surround For surrounding words with anything ("")
@@ -244,6 +247,9 @@ let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:red " sets the color for 
 
 " Vim Grepper -----------------------------------------
 nnoremap <leader>* :Grepper -tool ag -cword -noprompt<cr>
+
+" Closetag -----------------------------------
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.jsx,*js'
 
 " Finds the current Yocto recipe name for the file that is opened
 function! RecipeName()
