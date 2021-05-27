@@ -1,69 +1,70 @@
 #!/bin/bash
 
-# This script creates your profile on the target, sources it in the shell when
-# you log in and removes it afterwards. All in one ssh command!
-
-# WARNING, READ THIS BEFORE USING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# This script disregards ALL man-in-the-middle safety checks and should NOT be
-# used when such attacks are possible. But using it on your own local network
-# that you control is probably fine. Use this on your own risk, I can't be held
-# responsible for any issues caused.
-
 CONFIG_FOLDER=$HOME/.ssha
 CONFIG=$CONFIG_FOLDER/config
+PROFILES_DROPDIR=$CONFIG_FOLDER/profiles.d
 
 DEFAULT_SHELL=/bin/sh
 DEFAULT_USER=root
+DEFAULT_PASS=pass
 DEFAULT_SUBNET=192.168.1
-DEFAULT_PROFILE_PATH=$CONFIG_FOLDER/profile
-DEFAULT_PROFILE_PRIVATE_PATH=$CONFIG_FOLDER/profile_private
 
 setup () {
   echo "Config file not found, generating default config file at $CONFIG"
   echo ""
   mkdir -p $CONFIG_FOLDER
+  mkdir -p $PROFILES_DROPDIR
   echo "target_shell=$DEFAULT_SHELL" > $CONFIG
   echo "target_user=$DEFAULT_USER" >> $CONFIG
+  echo "target_pass=$DEFAULT_PASS" >> $CONFIG
   echo "target_subnet=$DEFAULT_SUBNET" >> $CONFIG
-  echo "profile_path=$DEFAULT_PROFILE_PATH" >> $CONFIG
-  echo "profile_private_path=$DEFAULT_PROFILE_PRIVATE_PATH" >> $CONFIG
-  echo "bypass_known_hosts_file=y" >> $CONFIG
-  echo "bypass_strict_host_key_checking=y" >> $CONFIG
+  echo "profiles_dropdir=$PROFILES_DROPDIR" >> $CONFIG
+  echo "bypass_known_hosts_file=n" >> $CONFIG
+  echo "bypass_strict_host_key_checking=n" >> $CONFIG
 }
+
+if [[ $# -gt 2 ]]; then
+  echo "Usage: ssha [user@]<ip> [password]"
+  echo "Default password is \"pass\" if no password is specified"
+  exit
+fi
 
 if [[ ! -e $CONFIG ]]; then
   setup
 fi
 source $CONFIG
 
-if [ $# -le 2 ]; then
-  if [[ $1 == *"."* || $1 == *":"* || $1 == *[a-z]* ]]; then
-    # Address contains a dot, colon or text, so probably a complete IP address or hostname
-    IP=$1
-  else
-    # Address contains only a number, so probably last part of an IPv4 address
-    IP="$target_subnet.$1"
-  fi
+# Split user and IP
+if [[ $1 == *"@"* ]]; then
+  # Address contains @, split user and IP
+  IFS=@; read -a fields <<< "$1"; unset IFS
+  target_user="${fields[0]}"
+  target_ip="${fields[1]}"
 else
-  echo "Usage: ssha <IP> [password]"
-  echo "Default password is \"pass\" if no password is specified"
-  exit
+  target_ip="$1"
 fi
 
+# Process target_ip
+if [[ $target_ip == *"."* || $target_ip == *":"* || $target_ip == *[a-z]* ]]; then
+  # Address contains a dot, colon or text, so probably a complete IP address or hostname
+  target_ip="$target_ip"
+else
+  # Address contains only a number, so probably last part of an IPv4 address
+  target_ip="$target_subnet.$target_ip"
+fi
+
+# Process password is supplied
 if [ $# -eq 2 ]; then
     pass="$2"
 else
-    pass="pass"
+    pass="$target_pass"
 fi
 
-# Finds the directory that the script is located in
-# DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
-
-# Build complete .profile
-profile=`cat $profile_path`
-if [ -f $profile_private_path ]; then
-    profile="$profile
-             `cat $profile_private_path`"
+# Build complete profile from files in dropdir
+if [ -z "$(ls -A $profiles_dropdir)" ]; then
+  echo "No files found in $profile_dropdir, skipping!"
+else
+  profile=$(cat $(realpath "$profiles_dropdir/*"))
 fi
 
 # Build SSH flags
@@ -75,6 +76,5 @@ if [[ $bypass_strict_host_key_checking == "y" ]]; then
   ssh_flags="$ssh_flags -o StrictHostKeyChecking=no"
 fi
 
-
-echo "ssh $target_user@$IP"
-sshpass -p "$pass" /usr/bin/ssh $ssh_flags -t $target_user@$IP "echo '$profile' > /tmp/profile ; ENV=/tmp/profile $target_shell -l ; rm /tmp/profile"
+echo "ssh $target_user@$target_ip"
+sshpass -p "$pass" /usr/bin/ssh $ssh_flags -t $target_user@$target_ip "echo '$profile' > /tmp/profile ; ENV=/tmp/profile $target_shell -l ; rm /tmp/profile"
