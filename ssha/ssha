@@ -1,22 +1,20 @@
 #!/bin/bash
 
-# This script uses scp to copy ssh-init to the targets ~/.profile, SSH:s to
-# the target and then removes the .profile when the SSH session ends.
-# .profile is sourced by sh when it starts
+# This script creates your profile on the target, sources it in the shell when
+# you log in and removes it afterwards. All in one ssh command!
 
 # WARNING, READ THIS BEFORE USING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # This script disregards ALL man-in-the-middle safety checks and should NOT be
 # used when such attacks are possible. But using it on your own local network
-# that you control is probably fine.
+# that you control is probably fine. Use this on your own risk, I can't be held
+# responsible for any issues caused.
 
 if [ $# -le 2 ]; then
-  if [[ $1 == *"."* || $1 == *":"* ]]; then
-    # Address contains a dot or a colon, so probably a complete IP address
-    IP=$1
-  elif [[ $1 == *[a-z]* ]]; then
-    # Address contains letters, so probably an alias from /etc/hosts
+  if [[ $1 == *"."* || $1 == *":"* || $1 == *[a-z]* ]]; then
+    # Address contains a dot, colon or text, so probably a complete IP address or hostname
     IP=$1
   else
+    # Address contains only a number, so probably last part of an IPv4 address
     IP="192.168.0.$1"
   fi
 else
@@ -35,18 +33,11 @@ fi
 DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
 
 # Build complete .profile
-cp $DIR/.profile /tmp/.profile
-if [ -f $DIR/.profile_private ]; then
-    echo -e "\n# FROM PRIVATE PROFILE --------------------------------" >> /tmp/.profile
-    cat $DIR/.profile_private >> /tmp/.profile
+profile=`cat $DIR/profile`
+if [ -f $DIR/profile_private ]; then
+    profile="$profile
+             `cat $DIR/profile_private`"
 fi
 
-echo "Copying .profile to root@$IP..."
-sshpass -p "$pass" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/.profile root@[$IP]:.profile
-echo "Done!"
-
 echo "ssh root@$IP"
-sshpass -p "$pass" /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$IP
-
-echo "Removing .profile on root@$IP..."
-sshpass -p "$pass" /usr/bin/ssh root@$IP -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no rm -f /root/.profile
+sshpass -p "$pass" /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t root@$IP "echo '$profile' > /tmp/profile ; ENV=/tmp/profile /bin/sh -l ; rm /tmp/profile"
