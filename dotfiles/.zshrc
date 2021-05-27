@@ -77,6 +77,8 @@ alias poweroff="echo \"You don't want to do this\""
 alias shutdown="echo \"You don't want to do this\""
 alias reboot="echo \"You don't want to do this\""
 highlight () { grep --color=always -e "^" -e "$1"; }
+alias clip="xclip -selection c"
+path2clip () { realpath $1 | clip }
 
 # fzf, fuzzy search in shell
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
