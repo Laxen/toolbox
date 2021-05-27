@@ -9,13 +9,40 @@
 # that you control is probably fine. Use this on your own risk, I can't be held
 # responsible for any issues caused.
 
+CONFIG_FOLDER=$HOME/.ssha
+CONFIG=$CONFIG_FOLDER/config
+
+DEFAULT_SHELL=/bin/sh
+DEFAULT_USER=root
+DEFAULT_SUBNET=192.168.1
+DEFAULT_PROFILE_PATH=$CONFIG_FOLDER/profile
+DEFAULT_PROFILE_PRIVATE_PATH=$CONFIG_FOLDER/profile_private
+
+setup () {
+  echo "Config file not found, generating default config file at $CONFIG"
+  echo ""
+  mkdir -p $CONFIG_FOLDER
+  echo "target_shell=$DEFAULT_SHELL" > $CONFIG
+  echo "target_user=$DEFAULT_USER" >> $CONFIG
+  echo "target_subnet=$DEFAULT_SUBNET" >> $CONFIG
+  echo "profile_path=$DEFAULT_PROFILE_PATH" >> $CONFIG
+  echo "profile_private_path=$DEFAULT_PROFILE_PRIVATE_PATH" >> $CONFIG
+  echo "bypass_known_hosts_file=y" >> $CONFIG
+  echo "bypass_strict_host_key_checking=y" >> $CONFIG
+}
+
+if [[ ! -e $CONFIG ]]; then
+  setup
+fi
+source $CONFIG
+
 if [ $# -le 2 ]; then
   if [[ $1 == *"."* || $1 == *":"* || $1 == *[a-z]* ]]; then
     # Address contains a dot, colon or text, so probably a complete IP address or hostname
     IP=$1
   else
     # Address contains only a number, so probably last part of an IPv4 address
-    IP="192.168.0.$1"
+    IP="$target_subnet.$1"
   fi
 else
   echo "Usage: ssha <IP> [password]"
@@ -30,14 +57,24 @@ else
 fi
 
 # Finds the directory that the script is located in
-DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
+# DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
 
 # Build complete .profile
-profile=`cat $DIR/profile`
-if [ -f $DIR/profile_private ]; then
+profile=`cat $profile_path`
+if [ -f $profile_private_path ]; then
     profile="$profile
-             `cat $DIR/profile_private`"
+             `cat $profile_private_path`"
 fi
 
-echo "ssh root@$IP"
-sshpass -p "$pass" /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t root@$IP "echo '$profile' > /tmp/profile ; ENV=/tmp/profile /bin/sh -l ; rm /tmp/profile"
+# Build SSH flags
+ssh_flags=""
+if [[ $bypass_known_hosts_file == "y" ]]; then
+  ssh_flags="$ssh_flags -o UserKnownHostsFile=/dev/null"
+fi
+if [[ $bypass_strict_host_key_checking == "y" ]]; then
+  ssh_flags="$ssh_flags -o StrictHostKeyChecking=no"
+fi
+
+
+echo "ssh $target_user@$IP"
+sshpass -p "$pass" /usr/bin/ssh $ssh_flags -t $target_user@$IP "echo '$profile' > /tmp/profile ; ENV=/tmp/profile $target_shell -l ; rm /tmp/profile"
