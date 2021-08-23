@@ -5,8 +5,9 @@ A toolbox with all my scripts and configs.
 1. Install zsh `sudo apt install zsh && chsh -s $(which zsh)` (Log out and in again)
 2. Install [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 3. `sudo apt install fonts-powerline xclip tmux`
-4. git clone --recurse-submodules https://github.com/Laxen/toolbox.git
-5. Run `install.sh`
+4. `git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install`
+5. `git clone --recurse-submodules https://github.com/Laxen/toolbox.git`
+6. Run `install.sh`
 
 ## Neovim setup
 1. Install [Neovim](https://github.com/neovim/neovim/wiki/Installing-Neovim#Linux)
