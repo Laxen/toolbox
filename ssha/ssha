@@ -62,7 +62,7 @@ fi
 
 # Build complete profile from files in dropdir
 if [ -z "$(ls -A $profiles_dropdir)" ]; then
-  echo "No files found in $profile_dropdir, skipping!"
+  echo "No files found in $profiles_dropdir, skipping!"
 else
   profile=$(cat $(realpath "$profiles_dropdir/*"))
 fi
