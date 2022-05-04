@@ -37,4 +37,7 @@ fi
 # Nvim
 ln -fs $DIR/nvim $HOME/.config
 
+# FZF change search keybind to ctrl+P
+sed -i "s/\^T/\^P/g" $HOME/.fzf/shell/key-bindings.zsh
+
 echo "[INFO] Toolbox installed!"
