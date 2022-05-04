@@ -38,7 +38,9 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'wesQ3/vim-windowswap'
 
 " Autocompletion for many languages
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " Fuzzy searching
 Plug 'kien/ctrlp.vim'
@@ -51,6 +53,8 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'alvan/vim-closetag'
+
+Plug 'tpope/vim-scriptease'
 
 " Might want in the future
 " tpope/vim-surround For surrounding words with anything ("")
@@ -107,6 +111,8 @@ set mouse=a
 " Window resizing
 nnoremap <silent> <Leader>h :vertical resize +10<CR>
 nnoremap <silent> <Leader>l :vertical resize -10<CR>
+nnoremap <silent> <Leader>j :resize -10<CR>
+nnoremap <silent> <Leader>k :resize +10<CR>
 
 " Theme -----------------------------------------------
 " Gruvbox
@@ -120,12 +126,21 @@ nnoremap <silent> <Leader>l :vertical resize -10<CR>
 " Material
 set background=dark
 let g:airline_theme = 'bubblegum'
+
 let g:material_theme_style = 'palenight'
+
+" let g:material_theme_style = 'lighter'
+
 colorscheme material
 set cursorline
 highlight CursorLine guibg=#2E3956
 " Visual select color
 highlight Visual guibg=#404975 guifg=reverse
+highlight link cBlock cParenError
+highlight link cParen cParenError
+highlight link cBracket cParenError
+highlight link cMulti cParenError
+highlight link vimUserFunc cParenError
 
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
@@ -149,12 +164,12 @@ autocmd BufWinEnter ?* silent! loadview
 
 " YouCompleteMe ------------------------------------------
 function! GoToDefinition()
-    let ret = execute("YcmCompleter GoToDefinitionElseDeclaration")
-    if ret =~ "ValueError"
-        execute("tag " . expand("<cword>"))
-    else
-        echo ret
-    endif
+    " let ret = execute("YcmCompleter GoToDefinitionElseDeclaration")
+    " if ret =~ "ValueError"
+    execute("tag " . expand("<cword>"))
+    " else
+    "     echo ret
+    " endif
 endfunction
 
 " leader+g Goes to definition or declaration using YCM if possible, else using tags
@@ -162,7 +177,6 @@ map <leader>g  :call GoToDefinition()<CR>
 " leader+leader+g does the same as above but in a vertical split
 map <leader><leader>g :vs \| call GoToDefinition()<CR>
 " -------------
-
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " Add paths to g:ycm_python_sys_path to have them included in YCM
@@ -172,6 +186,23 @@ let g:ycm_extra_conf_vim_data = [
   \  'g:ycm_python_sys_path'
   \]
 let g:ycm_global_ycm_extra_conf = $HOME . '/.config/nvim/ycm_global_extra_conf.py'
+
+" CoC ------------------------------------------
+" Use tab to trigger completion
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gi <Plug>(coc-implementation)
 
 " CtrlP --------------------------------------------------
 let g:ctrlp_max_files=0
@@ -336,7 +367,11 @@ endfunction
 nmap <F12> mz:execute TabToggle()<CR>'z
 
 " Source init_private.vim
-let init_private = expand('%:p:h') . '/init_private.vim'
+let init_private = '/home/alexanga/toolbox/nvim/init_private.vim'
 if filereadable(init_private)
     exec 'source' . init_private
 endif
+
+map <F9> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
