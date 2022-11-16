@@ -71,6 +71,7 @@ set incsearch                           "Start searching immediately
 set clipboard+=unnamedplus              "Copy to clipboard by default
 set nowrap
 set encoding=utf8                       "Needed to show glyphs
+set nomodeline                          "Stop parsing files for vim flags
 "Remove search highlighting when hitting esc
 " <C-U> removes visual range that is otherwise passed if escaping out of a visual selection
 noremap <silent> <Esc> :<C-U>noh<cr>
@@ -88,10 +89,10 @@ vmap zd zdgv
 
 " Make the backspace work like normal
 set backspace=indent,eol,start
-" Show existing tab with 4 spaces width
-set tabstop=4
-" When indenting with '>', use 4 spaces width
-set shiftwidth=4
+" Number of spaces to show tabs as
+set tabstop=2
+" Number of spaces when indenting
+set shiftwidth=2
 " On pressing tab, insert spaces
 set expandtab
 " Don't automatically break lines
@@ -128,7 +129,6 @@ set background=dark
 let g:airline_theme = 'bubblegum'
 
 let g:material_theme_style = 'palenight'
-
 " let g:material_theme_style = 'lighter'
 
 colorscheme material
@@ -162,31 +162,6 @@ highlight Folded guibg=base01 guifg=darkgrey
 autocmd BufWinLeave ?* mkview
 autocmd BufWinEnter ?* silent! loadview
 
-" YouCompleteMe ------------------------------------------
-function! GoToDefinition()
-    " let ret = execute("YcmCompleter GoToDefinitionElseDeclaration")
-    " if ret =~ "ValueError"
-    execute("tag " . expand("<cword>"))
-    " else
-    "     echo ret
-    " endif
-endfunction
-
-" leader+g Goes to definition or declaration using YCM if possible, else using tags
-map <leader>g  :call GoToDefinition()<CR>
-" leader+leader+g does the same as above but in a vertical split
-map <leader><leader>g :vs \| call GoToDefinition()<CR>
-" -------------
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-" Add paths to g:ycm_python_sys_path to have them included in YCM
-" (You can override this variable in init_private.vim)
-let g:ycm_python_sys_path = []
-let g:ycm_extra_conf_vim_data = [
-  \  'g:ycm_python_sys_path'
-  \]
-let g:ycm_global_ycm_extra_conf = $HOME . '/.config/nvim/ycm_global_extra_conf.py'
-
 " CoC ------------------------------------------
 " Use tab to trigger completion
 inoremap <silent><expr> <TAB>
@@ -203,6 +178,15 @@ endfunction
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gi <Plug>(coc-implementation)
+
+" leader+s to switch between c/h files
+nmap <leader>s :execute 'edit' CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://'.expand("%:p")})<CR>
+
+" leader+r to rename symbol
+nmap <leader>r <Plug>(coc-rename)
+
+map <leader>g  :call GoToDefinition()<CR>
+map <leader><leader>g :vs \| call GoToDefinition()<CR>
 
 " CtrlP --------------------------------------------------
 let g:ctrlp_max_files=0
