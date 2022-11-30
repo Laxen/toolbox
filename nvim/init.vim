@@ -142,6 +142,8 @@ highlight link cBracket cParenError
 highlight link cMulti cParenError
 highlight link vimUserFunc cParenError
 
+highlight CocInlayHint guifg=#3d4759
+
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 
@@ -184,6 +186,8 @@ nmap <leader>s :execute 'edit' CocRequest('clangd', 'textDocument/switchSourceHe
 
 " leader+r to rename symbol
 nmap <leader>r <Plug>(coc-rename)
+
+nnoremap <silent> <leader>h :call CocActionAsync('doHover')<cr>
 
 map <leader>g  :call GoToDefinition()<CR>
 map <leader><leader>g :vs \| call GoToDefinition()<CR>
@@ -265,6 +269,9 @@ nnoremap <leader>* :Grepper -tool ag -cword -noprompt<cr>
 
 " Closetag -----------------------------------
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.jsx,*js'
+
+" Run Python script with enter
+autocmd FileType python nnoremap <buffer> <CR> :exec '!python3' shellescape(@%, 1)<CR>
 
 " Finds the current Yocto recipe name for the file that is opened
 function! RecipeName()
