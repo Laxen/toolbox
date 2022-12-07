@@ -13,7 +13,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Auto open brackets and quotes
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 
 " Comment toggling
 " Keys - gc
@@ -55,6 +55,8 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'alvan/vim-closetag'
 
 Plug 'tpope/vim-scriptease'
+
+Plug 'github/copilot.vim', { 'branch': 'release' }
 
 " Might want in the future
 " tpope/vim-surround For surrounding words with anything ("")
@@ -167,15 +169,17 @@ autocmd BufWinEnter ?* silent! loadview
 " CoC ------------------------------------------
 " Use tab to trigger completion
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
@@ -221,14 +225,14 @@ let g:ctrlp_max_depth=40
 " Nerdtree -----------------------------------------------
 " Start automatically if no file specified or a folder is specified
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :silent! NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'silent! NERDTree' argv()[0] | wincmd p | ene | endif
 
 " Close if nerdtree is the only open window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Toggle with Ctrl-n
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :silent! NERDTreeToggle<CR>
 
 let NERDTreeShowHidden=1
 
@@ -272,6 +276,7 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.jsx,*js'
 
 " Run Python script with enter
 autocmd FileType python nnoremap <buffer> <CR> :exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python nnoremap <buffer> <leader><CR> :exec '!python3' shellescape(@%, 1) 'j'<CR>
 
 " Finds the current Yocto recipe name for the file that is opened
 function! RecipeName()
