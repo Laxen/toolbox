@@ -4,10 +4,10 @@ CONFIG_FOLDER=$HOME/.ssha
 CONFIG=$CONFIG_FOLDER/config
 PROFILES_DROPDIR=$CONFIG_FOLDER/profiles.d
 
-DEFAULT_SHELL=/bin/sh
+DEFAULT_SHELL=/bin/ash
 DEFAULT_USER=root
 DEFAULT_PASS=pass
-DEFAULT_SUBNET=192.168.1
+DEFAULT_SUBNET=192.168.0
 
 setup () {
   echo "Config file not found, generating default config file at $CONFIG"
@@ -19,8 +19,6 @@ setup () {
   echo "target_pass=$DEFAULT_PASS" >> $CONFIG
   echo "target_subnet=$DEFAULT_SUBNET" >> $CONFIG
   echo "profiles_dropdir=$PROFILES_DROPDIR" >> $CONFIG
-  echo "bypass_known_hosts_file=n" >> $CONFIG
-  echo "bypass_strict_host_key_checking=n" >> $CONFIG
 }
 
 if [[ $# -gt 2 ]]; then
@@ -53,7 +51,7 @@ else
   target_ip="$target_subnet.$target_ip"
 fi
 
-# Process password is supplied
+# Process password if supplied
 if [ $# -eq 2 ]; then
     pass="$2"
 else
@@ -67,14 +65,5 @@ else
   profile=$(cat $(realpath "$profiles_dropdir/*"))
 fi
 
-# Build SSH flags
-ssh_flags=""
-if [[ $bypass_known_hosts_file == "y" ]]; then
-  ssh_flags="$ssh_flags -o UserKnownHostsFile=/dev/null"
-fi
-if [[ $bypass_strict_host_key_checking == "y" ]]; then
-  ssh_flags="$ssh_flags -o StrictHostKeyChecking=no"
-fi
-
 echo "ssh $target_user@$target_ip"
-sshpass -p "$pass" /usr/bin/ssh $ssh_flags -t $target_user@$target_ip "echo '$profile' > /tmp/profile ; ENV=/tmp/profile $target_shell -l ; rm /tmp/profile"
+sshpass -p "$pass" /usr/bin/ssh -t $target_user@$target_ip "mkdir /tmp/ssha; echo '$profile' > /tmp/ssha/profile; ENV=/tmp/ssha/profile $target_shell -l; rm -r /tmp/ssha"
