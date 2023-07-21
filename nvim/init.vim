@@ -56,8 +56,6 @@ Plug 'alvan/vim-closetag'
 
 Plug 'tpope/vim-scriptease'
 
-Plug 'github/copilot.vim', { 'branch': 'release' }
-
 " Might want in the future
 " tpope/vim-surround For surrounding words with anything ("")
 " airblade/vim-gitgutter For getting notifications which lines you've changed in a git repo

@@ -2,35 +2,50 @@
 
 ECP_PATH="/tmp/ecp"
 
+process_ip () {
+  target_ip=$1
+
+  # Process target_ip
+  if [[ $target_ip == *"."* || $target_ip == *":"* || $target_ip == *[a-z]* ]]; then
+    # Address contains a dot, colon or text, so probably a complete IP address or hostname
+    target_ip="$target_ip"
+  else
+    # Address contains only a number, so probably last part of an IPv4 address
+    target_ip="192.168.0.$target_ip"
+  fi
+
+  echo $target_ip
+}
+
 while [ $# -gt 0 ]; do
-    if [ $1 == "--ip" ]; then
-            ip="$2"
-            shift
-    else
-        export_paths="$export_paths $1"
-    fi
+  if [ $1 == "--ip" ]; then
+    ip=$( process_ip $2 )
     shift
+  else
+    export_paths="$export_paths $1"
+  fi
+  shift
 done
 
 if [ -n "$export_paths" ]; then
-    for arg in $export_paths; do
-        file_path=$( realpath $arg )
-        echo $file_path >> $ECP_PATH
-        echo "Exported $file_path"
-    done
+  for arg in $export_paths; do
+    file_path=$( realpath $arg )
+    echo $file_path >> $ECP_PATH
+    echo "Exported $file_path"
+  done
 else
-    if [ -n "$ip" ]; then
-        paths=$( sshpass -p pass ssh root@$ip cat /tmp/ecp )
-        echo "Importing from $ip:"
-        for path in $paths; do
-            scp -r root@$ip:$path .
-        done
-        sshpass -p pass ssh root@$ip "echo '' > /tmp/ecp"
-    else
-        for path in $( cat $ECP_PATH ); do
-            cp -r $path .
-            echo "Imported $path"
-        done
-        echo "" > $ECP_PATH
-    fi
+  if [ -n "$ip" ]; then
+    paths=$( sshpass -p pass ssh root@$ip cat /tmp/ecp 2>/dev/null )
+    echo "Importing from $ip:"
+    for path in $paths; do
+      scp -r root@$ip:$path . 2>/dev/null
+    done
+    sshpass -p pass ssh root@$ip "echo '' > /tmp/ecp" 2>/dev/null
+  else
+    for path in $( cat $ECP_PATH ); do
+      cp -r $path .
+      echo "Imported $path"
+    done
+    echo "" > $ECP_PATH
+  fi
 fi

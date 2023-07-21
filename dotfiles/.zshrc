@@ -7,6 +7,8 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 HISTFILE=~/.zsh_history
 setopt nosharehistory
+setopt inc_append_history
+#setopt share_history
 
 # Use modern completion system
 autoload -Uz compinit
@@ -34,7 +36,7 @@ function set-title(){
   echo -e "\033];$*\007"
 }
 
-export LC_TIME=en_DK.UTF-8
+export LC_TIME=sv_SE.UTF-8
 
 # Zsh vi mode normal/insert indicator
 bindkey -v # Start vi mode
@@ -56,6 +58,7 @@ alias devres='devtool reset'
 alias devstat='devtool status'
 alias agorig='\ag -Uf --color'
 alias ag='echo "${RED}WARNING: Skipping files in oe-*/, tmp/, sysroot*/, snapshots/\nUse \"agorig\" to search all files\n${NC}" && \ag -Uf --color --ignore "oe-*" --ignore "tags" --ignore "tmp" --ignore "sysroot*" --ignore "snapshots" --ignore "bitbake-cookerdaemon.log"'
+alias rg='rg -L'
 alias gpr='git pull --rebase'
 alias f='find . -name'
 alias sizes='du -hs *'
@@ -63,6 +66,7 @@ alias l='ls -alh --color'
 alias ll='ls -lh'
 alias finder='xdg-open .'
 alias vim='$HOME/apps/nvim.appimage'
+alias nvim='$HOME/apps/nvim.appimage'
 alias v='vim'
 alias cspy="find . -name '*.py' > cscope.files && cscope -Rb"
 alias zshrc='vim $HOME/scripts/toolbox/.zshrc && source $HOME/scripts/toolbox/.zshrc'
@@ -71,7 +75,6 @@ alias oe-find='oe-pkgdata-util find-path'
 alias am='git-am patches/'
 alias tagup='ctags -R --exclude="oe-*" .'
 alias usbs='ls -alh /dev/ttyUSB* && ls -alh /dev/usblog*'
-bbake () { bitbake "$1" ; notify-send "Bitbake" "$1 build complete!" }
 bclean () { bitbake -c cleansstate "$1" ; notify-send "Bitbake" "$1 clean complete!" }
 alias poweroff="echo \"You don't want to do this\""
 alias shutdown="echo \"You don't want to do this\""
@@ -79,6 +82,7 @@ alias reboot="echo \"You don't want to do this\""
 highlight () { grep --color=always -e "^" -e "$1"; }
 alias clip="xclip -selection c"
 path2clip () { realpath $1 | clip }
+alias serve="python3 -m http.server -b 192.168.0.1"
 
 # fzf, fuzzy search in shell
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
