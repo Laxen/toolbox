@@ -49,6 +49,8 @@ export LESS=dMqifR
 
 # Shorter key repeat delay and faster repeat rate
 xset r rate 200 40
+gsettings set org.gnome.desktop.peripherals.keyboard delay 200
+gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 40
 
 alias c='cd ..'
 alias gk='gitk --all &'
