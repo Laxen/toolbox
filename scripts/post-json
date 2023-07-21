@@ -47,8 +47,8 @@ done
 
 # Read data from file
 if [ -n "$FILE" ]; then
-  URL="http://$AXIS_TARGET_IP/"$( head -n1 "$FILE" )
+  URL=$( head -n1 "$FILE" )
   DATA=$( tail -n+2 "$FILE" )
 fi
 
-curl --noproxy '*' -H "Content-Type: application/json" --digest --data "$DATA" --user root:"$PASS" "$URL" --silent | python -m json.tool
+curl --noproxy '*' -H "Content-Type: application/json" --digest --user root:pass --data "$DATA" "$URL" --silent | python3 -m json.tool
