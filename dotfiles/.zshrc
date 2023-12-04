@@ -1,3 +1,5 @@
+PATH=$PATH:$HOME/.local/bin
+
 # Colors
 RED='\033[0;31m'
 NC='\033[0m' # No Color
