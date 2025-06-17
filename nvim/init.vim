@@ -1,6 +1,11 @@
 " TODO
 " In-editor Pylint and PEP8
 
+if exists('g:vscode')
+  noremap <silent> <Esc> :<C-U>noh<cr>
+  set clipboard=unnamedplus              "Copy to clipboard by default
+else
+
 call plug#begin('~/.vim/plugged')
 
 " Themes
