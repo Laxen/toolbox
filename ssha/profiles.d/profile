@@ -19,26 +19,42 @@ alias iosched="cat /sys/block/sda/queue/scheduler"
 alias udev="cd /usr/lib/udev/rules.d"
 alias dtoverlays="cd /sys/devices/virtual/overlay"
 get () { wget http://192.168.0.1:8000/$1; }
+alias trace="cat /sys/kernel/debug/tracing/trace"
+alias sysdebug="cd /sys/kernel/debug"
 
 cpugov () {
     LOC="/sys/devices/system/cpu/cpufreq"
     gov_0=$( cat "$LOC/policy0/scaling_governor" )
     cpus_0=$( cat "$LOC/policy0/affected_cpus" )
-    gov_4=$( cat "$LOC/policy4/scaling_governor" )
-    cpus_4=$( cat "$LOC/policy4/affected_cpus" )
 
     echo "$cpus_0: $gov_0"
-    echo "$cpus_4: $gov_4"
+
+    govs=$( cat $LOC/policy0/scaling_available_governors )
+    echo "available govs: $govs"
 }
 
 setcpugov () {
     LOC="/sys/devices/system/cpu/cpufreq"
     echo "$1" > "$LOC/policy0/scaling_governor"
-    echo "$1" > "$LOC/policy4/scaling_governor"
     cpugov
 }
 
 setiosched () {
     echo "$1" > "/sys/block/sda/queue/scheduler"
     iosched
+}
+
+cpufreq () {
+    LOC="/sys/devices/system/cpu/cpufreq"
+
+    freq=$( cat $LOC/policy0/scaling_cur_freq )
+    echo $freq
+
+    freqs=$( cat $LOC/policy0/scaling_available_frequencies )
+    echo "available freqs: $freqs"
+}
+
+setcpufreq () {
+    echo "$1" > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
+    echo "$1" > /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
 }
