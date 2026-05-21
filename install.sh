@@ -8,9 +8,7 @@
 # Finds the directory that the script is located in
 DIR=$( dirname $( readlink -f "$BASH_SOURCE" ) )
 
-# SHELL --------------
-
-if ! echo $SHELL | grep zsh; then
+if ! echo $SHELL | grep -q zsh; then
     echo "Installing zsh..."
     sudo apt install -y zsh && chsh -s $(which zsh)
     echo "Please log out and back in again"
@@ -18,27 +16,8 @@ else
     echo "Shell is already zsh"
 fi
 
-if [ ! -e $HOME/.oh-my-zsh ]; then
-    echo "Installing ohmyzsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    ln -fs $DIR/dotfiles/.zshrc-oh-my-zsh $HOME/.zshrc
-else
-    echo "ohmyzsh already installed"
-fi
-
-# -------------------
-
 echo "Installing apt packages..."
-sudo apt install -y fonts-powerline xclip tmux
-
-if [ ! -e $HOME/.fzf ]; then
-    echo "Installing fzf..."
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
-    # change search keybind to ctrl+P
-    sed -i "s/\^T/\^P/g" $HOME/.fzf/shell/key-bindings.zsh
-else
-    echo "fzf already installed"
-fi
+sudo apt install -y fonts-powerline xclip tmux fzf libfuse2
 
 echo "Linking scripts..."
 mkdir -p $HOME/bin
@@ -48,13 +27,14 @@ ln -fs $DIR/scripts/post-json $HOME/bin/post-json
 ln -fs $DIR/scripts/workspace-title $HOME/bin/workspace-title
 
 echo "Linking dotfiles..."
+ln -fs $DIR/dotfiles/.zshrc $HOME/.zshrc
 ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 
 echo "Loading dconf..."
 dconf load / < $DIR/dconf/dconf_dump
 
-if ! grep -q ".gitconfig_append" $HOME/.gitconfig; then
+if [ ! -f $HOME/.gitconfig ] || ! grep -q ".gitconfig_append" $HOME/.gitconfig; then
     echo "Setting up gitconfig..."
     echo "[include]" >> $HOME/.gitconfig
     echo -e "\tpath = $DIR/dotfiles/.gitconfig_append" >> $HOME/.gitconfig
@@ -69,16 +49,23 @@ if [ ! -e $HOME/apps/nvim.appimage ]; then
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
     chmod u+x nvim.appimage
     cd -
-    ln -fs $DIR/nvim $HOME/.config
+    # ln -fs $DIR/nvim $HOME/.config
 
-    echo "Installing plugged..."
-    curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    # echo "Installing plugged..."
+    # curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    #   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+else
+    echo "Neovim already installed"
 fi
 
 #echo "Install neovim python package..."
 #python3 -m pip install neovim
 
+if tmux info &>/dev/null; then
+    echo "Reloading tmux config..."
+    tmux source-file ~/.tmux.conf
+fi
+
 echo "---------------------"
 echo "Toolbox installed!"
-echo "Remember to run :PlugUpdate from neovim at first start!"
+# echo "Remember to run :PlugUpdate from neovim at first start!"

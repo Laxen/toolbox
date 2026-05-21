@@ -1,5 +1,9 @@
 PATH=$PATH:$HOME/.local/bin
 
+# Prompt
+PROMPT='%B%F{yellow}%~%f%b
+%B%F{white}>%f%b '
+
 # Colors
 RED='\033[0;31m'
 NC='\033[0m' # No Color
@@ -89,7 +93,9 @@ path2clip () { realpath $1 | clip }
 alias serve="python3 -m http.server -b 192.168.0.1"
 
 # fzf, fuzzy search in shell
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+bindkey '^P' fzf-file-widget
+bindkey -r '^T'
 
 chromatic_zsh="$HOME/scripts/toolbox/chromatic-zsh/chromatic-zsh.zsh"
 [ -f $chromatic_zsh ] && source $chromatic_zsh
