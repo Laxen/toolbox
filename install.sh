@@ -35,6 +35,9 @@ ln -fs $DIR/dotfiles/.zshrc $HOME/.zshrc
 ln -fs $DIR/dotfiles/.zshrc_private $HOME/.zshrc_private
 ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
+mkdir -p $HOME/.ssh
+ln -fs $DIR/dotfiles/ssh_config $HOME/.ssh/config
+chmod 600 $DIR/dotfiles/ssh_config
 
 echo "Loading dconf..."
 dconf load / < $DIR/dconf/dconf_dump

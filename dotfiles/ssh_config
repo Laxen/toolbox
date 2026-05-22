@@ -1,0 +1,6 @@
+Host 192.168.0.* fe80::*
+	StrictHostKeyChecking no
+	UserKnownHostsFile /dev/null
+	ConnectTimeout 5
+	ServerAliveInterval 5
+	ServerAliveCountMax 2
