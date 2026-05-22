@@ -19,9 +19,13 @@ fi
 echo "Installing apt packages..."
 sudo apt install -y fonts-powerline xclip tmux fzf libfuse2
 
+echo "Installing ssha"
+ln -fs $DIR/ssha/ssha $HOME/bin/ssha
+mkdir -p $HOME/.ssha
+ln -fs $DIR/ssha/profiles.d $HOME/.ssha/profiles.d
+
 echo "Linking scripts..."
 mkdir -p $HOME/bin
-ln -fs $DIR/ssha/ssha $HOME/bin/ssha
 ln -fs $DIR/scripts/ecp $HOME/bin/ecp
 ln -fs $DIR/scripts/post-json $HOME/bin/post-json
 ln -fs $DIR/scripts/workspace-title $HOME/bin/workspace-title
