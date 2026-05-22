@@ -1,4 +1,4 @@
-PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/bin
 
 # Prompt
 PROMPT='%B%F{yellow}%~%f%b
