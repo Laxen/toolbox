@@ -25,6 +25,7 @@ dumpit() {
 echo "" > $DUMP_FILE
 dumpit "/org/gnome/mutter/"
 dumpit "/org/gnome/desktop/wm/keybindings/"
+dumpit "/org/gnome/desktop/calendar/" "show-weekdate"
 dumpit "/org/gnome/desktop/input-sources/" "xkb-options"
 dumpit "/org/zzrough/gs-extensions/drop-down-terminal/"
 dumpit "/org/gnome/shell/extensions/wsmatrix/"

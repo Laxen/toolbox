@@ -19,6 +19,9 @@ switch-to-workspace-left=['<Primary><Alt>h']
 switch-to-workspace-right=['<Primary><Alt>l']
 switch-to-workspace-up=['<Primary><Alt>k', '<Control><Alt>Up']
 
+[org/gnome/desktop/calendar]
+show-weekdate=true
+
 [org/gnome/desktop/input-sources]
 xkb-options=['caps:escape']
 
