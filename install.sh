@@ -28,6 +28,7 @@ ln -fs $DIR/scripts/workspace-title $HOME/bin/workspace-title
 
 echo "Linking dotfiles..."
 ln -fs $DIR/dotfiles/.zshrc $HOME/.zshrc
+ln -fs $DIR/dotfiles/.zshrc_private $HOME/.zshrc_private
 ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 

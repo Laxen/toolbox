@@ -116,3 +116,6 @@ fi
 }
 zle -N _sgpt_zsh
 bindkey ^o _sgpt_zsh
+
+# Source private rc if it exists
+[[ -f "${ZDOTDIR:-$HOME}/.zshrc_private" ]] && source "${ZDOTDIR:-$HOME}/.zshrc_private"
