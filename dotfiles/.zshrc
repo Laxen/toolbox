@@ -42,7 +42,7 @@ function set-title(){
   echo -e "\033];$*\007"
 }
 
-export LC_TIME=sv_SE.UTF-8
+export LC_TIME=en_US.UTF-8
 
 # Zsh vi mode normal/insert indicator
 bindkey -v # Start vi mode
