@@ -91,6 +91,7 @@ highlight () { grep --color=always -e "^" -e "$1"; }
 alias clip="xclip -selection c"
 path2clip () { realpath $1 | clip }
 alias serve="python3 -m http.server -b 192.168.0.1"
+alias cr="code -r"
 
 # fzf, fuzzy search in shell
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
