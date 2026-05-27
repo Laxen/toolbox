@@ -1,7 +1,13 @@
 PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 # Prompt
-PROMPT='%B%F{yellow}%~%f%b
+setopt PROMPT_SUBST
+_git_branch() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || return
+  echo " %F{white}(%f%F{214}${branch}%f%F{white})%f"
+}
+PROMPT='%B%F{yellow}%~%f%b$(_git_branch)
 %B%F{white}>%f%b '
 
 # Colors
