@@ -38,6 +38,7 @@ ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 mkdir -p $HOME/.ssh
 ln -fs $DIR/dotfiles/ssh_config $HOME/.ssh/config
 chmod 600 $DIR/dotfiles/ssh_config
+ln -fs $DIR/dotfiles/.dircolors $HOME/.dircolors
 
 echo "Loading dconf..."
 dconf load / < $DIR/dconf/dconf_dump

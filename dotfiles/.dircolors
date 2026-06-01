@@ -1,0 +1,3 @@
+# Override hard-to-see colors for temp/old file extensions
+.tmp 01;33
+.old 01;33
