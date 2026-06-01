@@ -2,3 +2,4 @@ dotfiles/.zshrc_private
 ssha/profiles.d/profile_private
 scripts/workspace_names
 nvim/init_private.vim
+*token*
