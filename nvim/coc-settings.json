@@ -1,6 +1,0 @@
-{
-    "clangd.semanticHighlighting": true,
-    "coc.preferences.semanticTokensHighlights": false,
-    "python.pythonPath": "/bin/python3",
-    "python.analysis.diagnosticSeverityOverrides.reportOptionalMemberAccess": "none"
-}
