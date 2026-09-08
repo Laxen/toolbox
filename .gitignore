@@ -1,4 +1,5 @@
 dotfiles/.zshrc_private
+dotfiles/ssh_config_private
 ssha/profiles.d/profile_private
 scripts/workspace_names
 nvim/init_private.vim

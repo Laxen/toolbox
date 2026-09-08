@@ -37,7 +37,9 @@ ln -fs $DIR/dotfiles/.xinitrc $HOME/.xinitrc
 ln -fs $DIR/dotfiles/.tmux.conf $HOME/.tmux.conf
 mkdir -p $HOME/.ssh
 ln -fs $DIR/dotfiles/ssh_config $HOME/.ssh/config
+ln -fs $DIR/dotfiles/ssh_config_private $HOME/.ssh/config_private
 chmod 600 $DIR/dotfiles/ssh_config
+chmod 600 $DIR/dotfiles/ssh_config_private
 ln -fs $DIR/dotfiles/.dircolors $HOME/.dircolors
 
 echo "Loading dconf..."
