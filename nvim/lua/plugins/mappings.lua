@@ -2,6 +2,11 @@ return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
   opts = {
+    options = {
+      opt = {
+        relativenumber = false,
+      },
+    },
     mappings = {
       n = {
         ["<C-n>"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
